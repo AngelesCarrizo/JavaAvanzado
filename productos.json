@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "nombre": "Gorra",
+      "desc": "Gorra con visera",
+      "precio": 3500,
+      "imagen": "url_imagen"
+    },
+    {
+      "id": 2,
+      "nombre": "Zapatillas",
+      "desc": "Zapatillas plataforma",
+      "precio": 50000,
+      "imagen": "url_imagen"
+    },
+    {
+      "id": 3,
+      "nombre": "Pantalones",
+      "desc": "Pantalon hombre",
+      "precio": 30000,
+      "imagen": "url_imagen"
+    }
+  ]
