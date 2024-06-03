@@ -17,6 +17,11 @@ router.get('/productos/:nombre',(req,res)=>{
    
 })
 
+/*ACTIVIDAD GET*/
+/* consultar usuarios */
+router.get('/allprod',(req,res)=>{
+    res.status(200).json(prodData)
+})
 
 /*ACTIVIDAD PUT*/
 /* actualizar stock*/ 
