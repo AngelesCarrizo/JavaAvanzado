@@ -11,6 +11,7 @@ app.use(express.json())
 app.use('/user', userRouter)
 app.use('/prod', prodRouter)
 app.use('/ven', venRouter)
+app.use(express.static('./client'))
 
 app.listen(port,()=>{
     console.log(`Servidor levantado en el puerto ${port}`)
