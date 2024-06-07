@@ -8,10 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch index.js"
   },
-  "author": "angeles",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
-    
   }
 }
