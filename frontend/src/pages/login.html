@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <h1>Iniciar Sesión</h1>
+        <form id="logInForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="pass">Contraseña:</label>
+            <input type="password" id="pass" name="pass" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <div id="error"></div>
+    </main>
+    <script src="./login.js" type="module"></script>
+</body>
+</html>
+

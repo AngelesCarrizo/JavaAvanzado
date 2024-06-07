@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Inicio</title>
+</head>
+<body>
+    <header>
+        <h1>Bienvenidos a Nuestra Tienda</h1>
+        <button id="start-shopping">Comenzar a Comprar</button>
+    </header>
+    <main>
+        <div id="product-list"></div>
+    </main>
+    <script src="./ProductList.js" type="module"></script>
+    <script>
+        document.getElementById('start-shopping').addEventListener('click', () => {
+            window.location.href = '/filter.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const products = await fetchProducts();
+            renderProducts(products);
+        });
+
+        async function fetchProducts() {
+            const response = await fetch('http://localhost:3000/prod/allprod');
+            return await response.json();
+        }
+
+        function renderProducts(products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+                productItem.innerHTML = `
+                    <img src="${product.imagen}" alt="${product.nombre}">
+                    <h2>${product.nombre}</h2>
+                    <p>${product.desc}</p>
+                    <p>Precio: $${product.precio}</p>
+                    <p>Stock: ${product.stock}</p>
+                `;
+                productList.appendChild(productItem);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
