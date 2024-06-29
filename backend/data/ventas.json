@@ -196,5 +196,149 @@
         "precio": 50000
       }
     ]
+  },
+  {
+    "id": 13,
+    "fecha": "2024-06-13",
+    "total": 83500,
+    "direccion": "sañsipuedes 1313",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      },
+      {
+        "id": 3,
+        "cantidad": 1,
+        "precio": 30000
+      },
+      {
+        "id": 1,
+        "cantidad": 1,
+        "precio": 3500
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "fecha": "2024-06-13",
+    "total": 83500,
+    "direccion": "salsipuedes 1818",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      },
+      {
+        "id": 3,
+        "cantidad": 1,
+        "precio": 30000
+      },
+      {
+        "id": 1,
+        "cantidad": 1,
+        "precio": 3500
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "fecha": "2024-06-13",
+    "total": 50000,
+    "direccion": "rio ceballos 2568",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "fecha": "2024-06-28",
+    "total": 50000,
+    "direccion": "resguardo",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "fecha": "2024-06-28",
+    "total": 87000,
+    "direccion": "efbhr6+",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      },
+      {
+        "id": 3,
+        "cantidad": 1,
+        "precio": 30000
+      },
+      {
+        "id": 1,
+        "cantidad": 2,
+        "precio": 3500
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "fecha": "2024-06-29",
+    "total": 80000,
+    "direccion": "kh",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      },
+      {
+        "id": 3,
+        "cantidad": 1,
+        "precio": 30000
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "fecha": "2024-06-29",
+    "total": 50000,
+    "direccion": "ufvhk",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "fecha": "2024-06-29",
+    "total": 53500,
+    "direccion": "resguardo 181",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1,
+        "precio": 50000
+      },
+      {
+        "id": 1,
+        "cantidad": 1,
+        "precio": 3500
+      }
+    ]
   }
 ]

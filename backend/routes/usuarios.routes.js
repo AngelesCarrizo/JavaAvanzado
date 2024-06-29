@@ -1,7 +1,12 @@
 import { Router } from "express"
 import { readFile, writeFile } from 'fs/promises'
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs'
+/*import { decodeToken } from "./middleware.js"*/
+import { verifyToken } from "./middleware.js"
 const file = await readFile('./backend/data/usuarios.json','utf-8')
 
+const SECRET = "D9HeJsfngORdA_vjNWV8Y77K_8tBlqoYvVQ4oL0SAw4NG9EhmQu1IzRRjLnfrtfV";
 const userData = JSON.parse(file)
 const router = Router()
 
@@ -27,17 +32,24 @@ router.post('/uspost',(req,res)=>{
     
 })
  /*crear nuevo usuario*/
- router.post('/nuevouspost',(req,res)=>{
-    const obj= req.body.id
-    const result = userData.find(e => e.id != obj)
-    userData.push();
-    writeFile('./usuarios.json',JSON.stringify(userData,null,2));
-    if(result){
-        res.status(200).json('usuario creado')
-    }else{
-        res.status(400).json('error al crear')
-    }
+ router.post('/nuevouspost',async (req,res)=>{
+    const {nombre,apellido,email,contraseña} = req.body
 
+if (!await verifyToken(token)){
+        return res.status(400).json({status: false})
+} 
+  try{
+  const hashedPass = bcrypt.hashSync(contraseña, 8);
+  console.log(hashedPass)
+  const id = userData.length > 0 ? userData[userData.length-1].id +1 :1
+  userData.push({id,nombre,apellido,email,contraseña:hashedPass})
+  writeFile('./backend/data/usuarios.json', JSON.stringify(userData,null,2))
+   res.status(200).json({status:true})
+  }
+  catch(error){
+  console,log(error)
+  res.status(400).json({status:false})
+}
     
 })
 
@@ -65,24 +77,30 @@ router.put('/usuarioput/delete/:id',(req,res)=>{
 })
 router.post('/login', (req, res)=>{
     const nombre = req.body.nombre
-    const pass = req.body.contraseña
+    const contraseña = req.body.contraseña
 
-    const result = userData.find(e => e.nombre === nombre && e.pass === pass)
+    const result = userData.find(e => e.nombre === nombre)
     
-    if(result){
-        const data = {
-            
-            nombre: result.nombre,
-            apellido: result.apellido,
-            email: result.email,
-            status: true
-        }
-        console.log(data)
-        res.status(200).json(data)
-    }else{
-        res.status(400).json({status:false})
+    if(!result){
+        return res.status(404).send({ message: 'Usuario no encontrado' });
     }
+    const controlPass = bcrypt.compareSync(contraseña,result.contraseña)
+    console.log(controlPass)
+    if(!controlPass){
+        return res.status(401).send({ message: 'Contraseña incorrecta' });
+    }
+    
+    const token = jwt.sign({ ...result}, SECRET , { expiresIn: 86400 })
+        
+        res.status(200).json({ token })
+   
 })
+router.post('/decodeToken',async (req,res)=>{
+    const token = req.body.token
 
+    const result = await decodeToken(token)
+    console.log(result)
+    res.status(200).json(result)
+})
 
 export default router

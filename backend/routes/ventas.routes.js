@@ -5,9 +5,14 @@ const file = await readFile('./backend/data/ventas.json','utf-8')
 const venData = JSON.parse(file)
 const router = Router()
 
+
 /* Crear una nueva venta */
 router.post('/nueva', async (req, res) => {
     const { id_usuario, direccion, productos } = req.body
+    if (!direccion || !productos || productos.length === 0) {
+        return res.status(400).json('La dirección y los productos son requeridos')
+    }
+
     const total = productos.reduce((sum, item) => sum + item.precio * item.cantidad, 0)
     const nuevaVenta = {
         id: venData.length + 1,
