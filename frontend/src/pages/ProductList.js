@@ -51,14 +51,14 @@ async function addToCart(id) {
 
         if (response.ok) {
             const productos = await response.json();
-            let cart = JSON.parse(localStorage.getItem('carro')) || [];
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
             const productInCart = cart.find(item => item.id === productos.id);
             if (productInCart) {
                 productInCart.quantity += 1;
             } else {
                 cart.push({ ...productos, quantity: 1 });
             }
-            localStorage.setItem('carro', JSON.stringify(cart));
+            localStorage.setItem('cart', JSON.stringify(cart));
             alert('Producto agregado al carrito');
         } else {
             alert('Error al agregar el producto al carrito');
@@ -76,14 +76,13 @@ async function createOrder() {
         return;
     }
 
-    const cart = JSON.parse(localStorage.getItem('carro')) || [];
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
     if (cart.length === 0) {
         alert('El carrito está vacío');
         return;
     }
 
     const direccion = prompt('Ingrese su dirección de envío:');
-
     if (!direccion) {
         alert('La dirección es requerida');
         return;
@@ -95,7 +94,7 @@ async function createOrder() {
         precio: item.precio
     }));
 
-    const order = { direccion, productos };
+    const order = { id_usuario: user.id, direccion, productos };
 
     try {
         const response = await fetch(`${API}/ven/nueva`, {
@@ -108,7 +107,7 @@ async function createOrder() {
         });
 
         if (response.ok) {
-            localStorage.removeItem('carro');
+            localStorage.removeItem('cart');
             alert('Orden creada con éxito');
         } else {
             alert('Error al crear la orden');
@@ -119,12 +118,14 @@ async function createOrder() {
 }
 
 
+
+
 document.addEventListener('DOMContentLoaded', async () => {
     const productos = await fetchProducts();
     renderProducts(productos);
 
     document.getElementById('cajacarrito').addEventListener('click', () => {
-        const cart = JSON.parse(localStorage.getItem('carro')) || [];
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const cartList = document.getElementById('cart-list');
         cartList.innerHTML = '';
 
@@ -145,14 +146,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 cartList.appendChild(cartItem);
             });
 
-            const cartTotal = document.getElementById('totalcarrito');
+            const cartTotal = document.getElementById('cart-total');
             cartTotal.innerHTML = `<h3>Total: ${total}</h3>`;
         }
 
-        document.getElementById('carro').style.display = 'block';
+        document.getElementById('cart').style.display = 'block';
     });
 
-    document.getElementById('comprarcarrito').addEventListener('click', createOrder);
+    document.getElementById('buy-cart').addEventListener('click', createOrder);
 });
 document.getElementById('buy-button').addEventListener('click', () => {
     sessionStorage.setItem('redirectUrl', window.location.href);

@@ -40,6 +40,20 @@ main {
     padding: 20px;
 }
 
+#form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.toggle-btn {
+    margin-bottom: 10px;
+}
+
+#error {
+    color: red;
+    margin-top: 20px;
+}
+
 #product-list {
     display: flex;
     flex-wrap: wrap;

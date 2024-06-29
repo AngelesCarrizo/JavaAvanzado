@@ -123,23 +123,66 @@
         document.getElementById('close-cart').addEventListener('click', () => {
             document.getElementById('cart').style.display = 'none';
         });
+       
 
         document.getElementById('buy-cart').addEventListener('click', () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (user) {
+        const direccion = prompt('Ingrese su dirección de envío:');
+        if (direccion) {
+            finalizarCompra(direccion);
+        } else {
+            alert('La dirección es requerida para realizar la compra.');
+        }
+    } else {
+        alert('Debes iniciar sesión para comprar');
+        window.location.href = '/login.html';
+    }
+});
+        async function finalizarCompra(direccion) {
             const user = JSON.parse(sessionStorage.getItem('user'));
-            if (user) {
-                alert('Compra realizada con éxito');
-                localStorage.removeItem('cart'); // Vaciar el carrito
-                window.location.href = '/filter.html';
-            } else {
-                window.location.href = '/login.html?redirectTo=/filter.html';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('El carrito está vacío.');
+                return;
             }
-        });
 
-        
+            const productos = cart.map(item => ({
+                id: item.id,
+                cantidad: item.quantity,
+                precio: item.precio
+            }));
+
+            const order = { id_usuario: user.id, direccion, productos };
+
+            try {
+                const response = await fetch('http://localhost:3000/ven/nueva', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem('cart');
+                    alert('Orden creada con éxito');
+                    document.getElementById('cart').style.display = 'none';
+                } else {
+                    alert('Error al crear la orden');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al crear la orden');
+            }
+        }
+
         window.addEventListener('load', async () => {
             const products = await fetchProducts();
             renderProducts(products);
         });
+
+        
     </script>
 </body>
 </html>
