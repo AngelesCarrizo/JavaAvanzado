@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { createVentas,findById,findAll } from "../../db/actions/ventas.actions.js"
 import { readFile, writeFile } from 'fs/promises'
 const file = await readFile('./backend/data/ventas.json','utf-8')
 
@@ -32,6 +33,36 @@ router.post('/nueva', async (req, res) => {
         res.status(500).json('Error al crear la venta')
     }
 })
+/*mongo */
+router.post('/create',async(req,res)=>{
+    const {usuario, total,direccion,productos} = req.body
+    try{
+        const result = await createVentas({usuario, total,direccion,productos})
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+})
+
+
+router.get('/allmongo',async(req,res)=>{
+    try{
+        const result = await findAll()
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+})
+router.get('/byId/:id',async(req,res)=>{
+    const id = req.params.id
+    try{
+        const result = await findById(id)
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+})
+
 
 
 export default router

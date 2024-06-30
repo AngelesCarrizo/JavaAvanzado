@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { readFile, writeFile } from 'fs/promises'
+import { createUser } from "../../db/actions/usuarios.actions.js"
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs'
 /*import { decodeToken } from "./middleware.js"*/
@@ -102,5 +103,19 @@ router.post('/decodeToken',async (req,res)=>{
     console.log(result)
     res.status(200).json(result)
 })
-
+/*Mogo */
+/*crear usuario en la base */
+router.post('/create',async(req,res)=>{
+    const {nombre, apellido, email,contraseña} = req.body
+    try{
+     const result = await createUser({nombre, apellido, email,contraseña})
+     console.log(result)
+     res.status(200).json(result)
+    
+    }
+     catch(error){
+         res.status(400).json()
+     }
+     
+ })
 export default router

@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { createProd, findAll,findById,findByCategory,updateNameById, deleteById } from "../../db/actions/productos.actions.js"
 import { readFile, writeFile } from 'fs/promises'
 const file = await readFile('./backend/data/productos.json','utf-8')
 
@@ -20,7 +21,7 @@ router.get('/productos/:nombre',(req,res)=>{
 })
 
 /*ACTIVIDAD GET*/
-/* consultar usuarios */
+/* consultar productos */
 router.get('/allprod',(req,res)=>{
     res.status(200).json(prodData)
 })
@@ -54,5 +55,77 @@ router.post('/agregar',(req,res)=>{
         res.status(400).json('No encontrado')
     }
 })
+/*mongo*/
+/*crear producto en la base */
+router.post('/create',async(req,res)=>{
+   const {categoria,nombre, desc, precio,imagen, stock} = req.body
+   try{
+    const result = await createProd({categoria,nombre, desc, precio,imagen, stock})
+    console.log(result)
+    res.status(200).json(result)
+   
+   }
+    catch(error){
+        res.status(400).json()
+    }
+    
+})
+/* consultar productos */
+router.get('/allmongo', async(req,res)=>{
+    try{
+        const result = await findAll()
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+    
+})
 
+/* filtrar id */
+router.get('/byId/:id', async(req,res)=>{
+    const id=req.params.id
+    try{
+        const result = await findById(id)
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+    
+})
+
+/* filtrar categoria */
+router.get('/cat/:categoria', async(req,res)=>{
+    const categoria=req.params.categoria
+    try{
+        const result = await findByCategory(categoria)
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+    
+})
+router.patch('/updateByName/:id',async(req,res)=>{
+    const id = req.params.id
+    const {nombre} = req.body
+  
+    try{
+        const result = await updateNameById(nombre, id)
+       
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+})
+
+router.delete('/deleteById/:id',async(req,res)=>{
+    const id = req.params.id
+  
+    try{
+        const result = await deleteById(id)
+       
+        res.status(200).json(result)
+    }catch(error){
+        res.status(400).json()
+    }
+})
 export default router

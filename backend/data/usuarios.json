@@ -1,12 +1,6 @@
 [
 
   {
-    "id": 8,
-    "nombre": "pedro",
-    "apellido": "Gonzales",
-    "contraseña": "$2a$08$AsDFqtEBlPgZdE0BQ.IEnudltnlFk.dq4Rtv0UdslXQsk5LQ9rkTO"
-  },
-  {
     "id": 9,
     "nombre": "Salomon",
     "apellido": "carrizo",
@@ -27,27 +21,10 @@
     "email": "carrizoangeles91@gmail.com",
     "contraseña": "$2a$08$ZpzwXrMrbJ8Iog5XQh.HkevzN/qQ5r1kko90x3fW/me6P4b3fD2O."
   },
-  {
-    "id": 12,
-    "nombre": "sandra",
-    "apellido": "Gonzales",
-    "contraseña": "$2a$08$t7BwVf5Zy6rUIKCtj./7kO90r1eLKAefojpUFubteMeIN6Jg8ppuy"
-  },
-  {
-    "id": 13,
-    "nombre": "simon",
-    "apellido": "Gonzales",
-    "contraseña": "$2a$08$MtPY8WaqzzIzcUIXTFBHmeM6Y6tndyYi293/4jbdEBxkoI8MSCvRm"
-  },
-  {
-    "id": 14,
-    "nombre": "amanda",
-    "apellido": "Gonzales",
-    "contraseña": "$2a$08$B60RT6SpAbwhgFqR41lNpOxDXxzXLw9WviJMVUUk1yJS7PDCxXgda"
-  },
+  
   {
     "id": 15,
-    "nombre": "",
+    "nombre": "Pedro",
     "apellido": "carrizo",
     "email": "salo@g.commail",
     "contraseña": "$2a$08$QIpMp4BqKYYZFkm2hmFddupmlZK/8CcKbbJf6DbDXQ4efZrCS5VB2"
