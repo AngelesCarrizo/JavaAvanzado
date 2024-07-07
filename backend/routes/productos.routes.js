@@ -1,61 +1,50 @@
 import { Router } from "express"
-import { createProd, findAll,findById,findByCategory,updateNameById, deleteById } from "../../db/actions/productos.actions.js"
-import { readFile, writeFile } from 'fs/promises'
-const file = await readFile('./backend/data/productos.json','utf-8')
+import { createProd, findAll,findById,findByCategory,updateNameById, deleteById } from ".././db/actions/productos.actions.js"
 
-const prodData = JSON.parse(file)
+
 const router = Router()
 
 
-
-/*Descripcion de un producto seleccionado por nombre*/ 
-router.get('/productos/:nombre',(req,res)=>{
-    const nom= req.params.nombre
-    const result = prodData.find(e => e.nombre === nom)
-    if(result){
-        res.status(200).json(result)
-    }else{
-        res.status(400).json('No encontrado')
-    }
-   
-})
-
-/*ACTIVIDAD GET*/
-/* consultar productos */
-router.get('/allprod',(req,res)=>{
-    res.status(200).json(prodData)
-})
-
-/*ACTIVIDAD PUT*/
-/* actualizar stock*/ 
-router.put('/prodput/stock/update/:id',(req,res)=>{
-    const id = req.params.id
-    const nuevostock= req.body.stock
-    try{
-        const index = prodData.findIndex(e => e.id == id)
-        if(index != -1){
-            prodData[index].stock = nuevostock
-            writeFile('./productos.json', JSON.stringify(prodData));
-            res.status(200).json('stock actualizado')
-        }else{
-            res.status(400).json(' el id no existe')
-        }
-    }catch(error){
-        res.send(500).json('error al actualizar datos')
-    }
-   
-})
-router.post('/agregar',(req,res)=>{
-   
-    const obj= req.body.id
-    const result = prodData.find(e => e.id === obj)
-    if(result){
-        res.status(200).json(result)
-    }else{
-        res.status(400).json('No encontrado')
-    }
-})
 /*mongo*/
+// Obtener producto por nombre
+router.get('/productos/:nombre', async (req, res) => {
+    const nombre = req.params.nombre;
+    try {
+        const result = await findAll({ nombre });
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: 'Producto no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al buscar producto por nombre:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
+// Agregar producto al carrito por ID
+router.post('/agregar', async (req, res) => {
+    try {
+        const productId = req.body._id; // Asegúrate de usar el nombre correcto del campo
+        console.log('Received product ID:', productId);
+
+        // Validar que el ID sea válido
+        if (!productId) {
+            return res.status(400).json({ message: 'ID de producto no proporcionado' });
+        }
+
+        // Buscar el producto por su ID
+        const product = await findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        // Enviar el producto encontrado como respuesta
+        res.status(200).json(product);
+    } catch (error) {
+        console.error('Error al agregar producto:', error);
+        res.status(500).json({ message: 'Error en el servidor', error });
+    }
+});
 /*crear producto en la base */
 router.post('/create',async(req,res)=>{
    const {categoria,nombre, desc, precio,imagen, stock} = req.body
@@ -71,7 +60,7 @@ router.post('/create',async(req,res)=>{
     
 })
 /* consultar productos */
-router.get('/allmongo', async(req,res)=>{
+router.get('/allprod', async(req,res)=>{
     try{
         const result = await findAll()
         res.status(200).json(result)
@@ -95,9 +84,9 @@ router.get('/byId/:id', async(req,res)=>{
 
 /* filtrar categoria */
 router.get('/cat/:categoria', async(req,res)=>{
-    const categoria=req.params.categoria
+    const category=req.params.categoria
     try{
-        const result = await findByCategory(categoria)
+        const result = await findByCategory(category)
         res.status(200).json(result)
     }catch(error){
         res.status(400).json()
