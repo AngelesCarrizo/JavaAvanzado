@@ -1,4 +1,4 @@
-import { API } from './api.js';
+const API = 'http://localhost:3000';
 
 async function fetchProducts() {
     const response = await fetch(`${API}/prod/allprod`);
@@ -35,7 +35,7 @@ async function addToCart(id) {
     const user = JSON.parse(sessionStorage.getItem('user'));
     if (!user) {
         alert('Debes iniciar sesión para agregar productos al carrito');
-        window.location.href = 'login.html';
+        window.location.href = '../login/login.html';
         return;
     }
 
@@ -97,7 +97,7 @@ async function createOrder() {
     const order = { id_usuario: user.id, direccion, productos };
 
     try {
-        const response = await fetch(`${API}/ven/nueva`, {
+        const response = await fetch(`${API}/ven/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,6 +110,7 @@ async function createOrder() {
             localStorage.removeItem('cart');
             alert('Orden creada con éxito');
         } else {
+            console.error("Error en la respuesta:", errorText);/*despues quitar*/
             alert('Error al crear la orden');
         }
     } catch (error) {

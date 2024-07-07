@@ -1,10 +1,8 @@
-import { API } from "./api.js";
+const API = 'http://localhost:3000';
 
 const formLogIn = document.getElementById("logInForm");
-const formRegister = document.getElementById("registerForm");
-const error = document.getElementById("error");
 const toggleLoginBtn = document.getElementById('toggle-login');
-const toggleRegisterBtn = document.getElementById('toggle-register');
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -22,20 +20,14 @@ toggleLoginBtn.addEventListener('click', () => {
     formRegister.style.display = 'none';
 });
 
-toggleRegisterBtn.addEventListener('click', () => {
-    formRegister.style.display = 'block';
-    formLogIn.style.display = 'none';
-});
+
 
 formLogIn.addEventListener('submit', async (e) => {
     e.preventDefault();
     await logIn();
 });
 
-formRegister.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await register();
-});
+
 
 const logIn = async () => {
     const nombre = document.getElementById("nombre").value;
@@ -67,35 +59,4 @@ const logIn = async () => {
     }
 };
 
-const register = async () => {
-    const nombre = document.getElementById("nombre").value;
-    const apellido = document.getElementById("apellido").value;
-    const email = document.getElementById("email").value;
-    const contraseña = document.getElementById("pass").value;
-
-    try {
-        const res = await fetch(`${API}/user/nuevouspost`, {
-            method: 'POST',
-            body: JSON.stringify({ nombre, apellido, email, contraseña }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await res.json();
-
-        if (data.status) {
-            console.log(data);
-            sessionStorage.setItem('user', JSON.stringify(data));
-            const redirectUrl = sessionStorage.getItem('redirectUrl') || '/filter.html';
-            sessionStorage.removeItem('redirectUrl');
-            window.location.href = redirectUrl;
-        } else {
-            error.textContent = "Error al registrar el usuario 🫠";
-        }
-    } catch (err) {
-        console.error('Error:', err);
-        error.textContent = "Error al comunicarse con el servidor 🫠";
-    }
-};
 

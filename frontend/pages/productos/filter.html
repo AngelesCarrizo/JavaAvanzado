@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="../../styles/styles.css">
     <title>Filtrar Productos</title>
 </head>
 <body>
@@ -16,9 +16,9 @@
             <label for="category">Categoría:</label>
             <select id="category">
                 <option value="all">Todos</option>
-                <option value="Gorra">Gorra</option>
-                <option value="Zapatillas">Zapatillas</option>
-                <option value="Pantalones">Pantalones</option>
+                <option value="GORRAS">Gorra</option>
+                <option value="ZAPATILLAS">Zapatillas</option>
+                <option value="PANTALONES">Pantalones</option>
             </select>
         </div>
         <div id="product-list"></div>
@@ -35,7 +35,7 @@
         document.getElementById('category').addEventListener('change', async (event) => {
             const category = event.target.value;
             const products = await fetchProducts();
-            const filteredProducts = category === 'all' ? products : products.filter(product => product.categoria === category);
+            const filteredProducts = category === 'all' ? products : products.filter(products => products.categoria && products.categoria.nombre === category);
             renderProducts(filteredProducts);
         });
 
@@ -56,7 +56,7 @@
                     <p>${product.desc}</p>
                     <p>Precio: $${product.precio}</p>
                     <p>Stock: ${product.stock}</p>
-                    <button class="add-to-cart" data-id="${product.id}">Agregar al carrito</button>
+                  <button class="add-to-cart" data-id="${product._id}">Agregar al carrito</button>
                 `;
                 productList.appendChild(productItem);
             });
@@ -75,13 +75,13 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: parseInt(id, 10) }),
+                body: JSON.stringify({ _id: id }),
             });
 
             if (response.ok) {
                 const product = await response.json();
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const productInCart = cart.find(item => item.id === product.id);
+                const productInCart = cart.find(item => item._id === product._id);
                 if (productInCart) {
                     productInCart.quantity += 1;
                 } else {
@@ -101,7 +101,7 @@
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             cartList.innerHTML = '';
             let total = 0;
-
+            cartList.innerHTML = ''; // Limpiar lista antes de renderizar de nuevo
             cart.forEach(item => {
                 total += item.precio * item.quantity;
                 const cartItem = document.createElement('div');
@@ -136,46 +136,47 @@
         }
     } else {
         alert('Debes iniciar sesión para comprar');
-        window.location.href = '/login.html';
+        window.location.href = './login.html';
     }
 });
-        async function finalizarCompra(direccion) {
-            const user = JSON.parse(sessionStorage.getItem('user'));
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            if (cart.length === 0) {
-                alert('El carrito está vacío.');
-                return;
-            }
+async function finalizarCompra(direccion) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) {
+        alert('El carrito está vacío.');
+        return;
+    }
 
-            const productos = cart.map(item => ({
-                id: item.id,
-                cantidad: item.quantity,
-                precio: item.precio
-            }));
+    const productos = cart.map(item => item._id); // Solo enviar los IDs de los productos
+    const total = calcularTotal(cart); // Calcular el total del carrito
 
-            const order = { id_usuario: user.id, direccion, productos };
+    const order = { usuario: user._id, total, direccion, productos };
 
-            try {
-                const response = await fetch('http://localhost:3000/ven/nueva', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(order)
-                });
+    try {
+        const response = await fetch('http://localhost:3000/ven/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        });
 
-                if (response.ok) {
-                    localStorage.removeItem('cart');
-                    alert('Orden creada con éxito');
-                    document.getElementById('cart').style.display = 'none';
-                } else {
-                    alert('Error al crear la orden');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al crear la orden');
-            }
+        if (response.ok) {
+            localStorage.removeItem('cart');
+            alert('Orden creada con éxito');
+            document.getElementById('cart').style.display = 'none';
+        } else {
+            alert('Error al crear la orden');
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al crear la orden');
+    }
+}
+
+function calcularTotal(cart) {
+    return cart.reduce((total, item) => total + item.precio * item.quantity, 0);
+}
 
         window.addEventListener('load', async () => {
             const products = await fetchProducts();
@@ -186,7 +187,6 @@
     </script>
 </body>
 </html>
-
 
 
 
