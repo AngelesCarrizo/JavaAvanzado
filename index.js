@@ -16,8 +16,11 @@ app.use('/user', userRouter)
 app.use('/prod', prodRouter)
 app.use('/ven', venRouter)
 app.use('/imagenes', express.static('./frontend/imagenes'));
-app.use(express.static('./frontend/src/pages'))
-app.use(express.static('./frontend/src/styles'))
+app.use(express.static('./frontend/pages/productos'))
+app.use('/api',express.static('./frontend/api'))
+app.use('/styles', express.static('./frontend/styles'));
+app.use(express.static('./frontend/pages/login'))
+app.use(express.static('./backend/db'))
 
     app.listen(port, () => {
         console.log(`Servidor levantado en el puerto ${port}`);
