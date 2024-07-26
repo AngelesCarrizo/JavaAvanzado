@@ -8,8 +8,11 @@
 </head>
 <body>
     <header>
-        <h1>Filtrar Productos</h1>
-        <button id="view-cart">Ver Carrito</button>
+        <h1>Bienvenidos a Nuestra Tienda</h1>
+        <button id="btn-login" class="toggle-btn">Iniciar Sesión</button>
+        <button id="view-cart" class="toggle-btn">Ver Carrito</button>
+        <button id="btn-logout" class="toggle-btn">Cerrar Sesión</button>
+        <button id="btn-admin" class="toggle-btn">Administrador</button>
     </header>
     <main>
         <div>
@@ -28,10 +31,34 @@
             <div id="cart-list"></div>
             <div id="cart-total"></div>
             <button id="buy-cart">Comprar</button>
+            <button id="historial">Historial de compras</button>
         </div>
     </main>
     <script src="./ProductList.js" type="module"></script>
     <script>
+      document.addEventListener("DOMContentLoaded", () => {
+            const btnLogin = document.getElementById("btn-login");
+            const btnLogout = document.getElementById("btn-logout");
+            const btnAdmin = document.getElementById("btn-admin");
+
+            btnLogin.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+
+            btnLogout.addEventListener("click", () => {
+                // cerrar sesión
+                sessionStorage.removeItem('user');
+                localStorage.removeItem('cart'); // Limpia el carrito
+                window.location.href = "index.html"; 
+            });
+
+            btnAdmin.addEventListener("click", () => {
+                // acceso de administrador
+                window.location.href = "admin.html";
+            });
+        })
+
+   
         document.getElementById('category').addEventListener('change', async (event) => {
             const category = event.target.value;
             const products = await fetchProducts();
@@ -182,11 +209,28 @@ function calcularTotal(cart) {
             const products = await fetchProducts();
             renderProducts(products);
         });
-
+        document.getElementById('historial').addEventListener('click', () => {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            if (user) {
+                // Redirige a historial.html si el usuario está autenticado
+                window.location.href = './historial.html';
+            } else {
+                // Muestra alerta y redirige a login.html si no está autenticado
+                alert('Debes iniciar sesión para ver el historial de compras');
+                window.location.href = './login.html';
+            }
+        });
+       
         
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

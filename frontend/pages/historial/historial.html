@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../styles/styles.css">
+    <title>Historial de Compras</title>
+</head>
+<body>
+    <header>
+        <h1>Tu Historial de Compras</h1>
+        <button id="btn-back" class="toggle-btn">Volver</button>
+    </header>
+    <main>
+        <div id="history-list"></div>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            if (!user) {
+                alert('Debes iniciar sesión para ver el historial de compras.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/ven/allmongo');
+                if (response.ok) {
+                    const history = await response.json();
+                    renderHistory(history);
+                } else {
+                    alert('Error al cargar el historial de compras.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al cargar el historial de compras.');
+            }
+        });
+
+        function renderHistory(history) {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+
+            history.forEach(order => {
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <h2>Fecha: ${new Date(order.createdAt).toLocaleDateString()}</h2>
+                    <h3>Productos:</h3>
+                    ${order.productos.map(product => `
+                        <div class="product-item">
+                            <p>Nombre: ${product.nombre}</p>
+                            <p>Descripción: ${product.desc}</p>
+                            <p>Precio: $${product.precio}</p>
+                        </div>
+                    `).join('')}
+                `;
+                historyList.appendChild(orderItem);
+            });
+        }
+
+        document.getElementById('btn-back').addEventListener('click', () => {
+            window.location.href = 'filter.html';
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../styles/styles.css">
+    <title>Administración de productos</title>
+</head>
+<body>
+    <header>
+        <h1>Administración de productos</h1>
+        <button id="logout">Cerrar Sesión</button>
+    </header>
+    <main>
+        <h2>Cargar Producto</h2>
+        <form id="create-product-form">
+            <div>
+                <label for="create-categoria">Categoría:</label>
+                <input type="text" id="create-categoria" required>
+            </div>
+            <div>
+                <label for="create-nombre">Nombre:</label>
+                <input type="text" id="create-nombre" required>
+            </div>
+            <div>
+                <label for="create-desc">Descripción:</label>
+                <input type="text" id="create-desc" required>
+            </div>
+            <div>
+                <label for="create-precio">Precio:</label>
+                <input type="number" id="create-precio" required>
+            </div>
+            <div>
+                <label for="create-imagen">Imagen:</label>
+                <input type="text" id="create-imagen" required>
+            </div>
+            <div>
+                <label for="create-stock">Stock:</label>
+                <input type="number" id="create-stock" required>
+            </div>
+            <button type="submit">Crear Producto</button>
+            <div id="create-error" style="color: red; display: none;">Error al crear el producto.</div>
+        </form>
+
+        <h2>Modificar nombre de Producto</h2>
+        <form id="update-product-form">
+            <div>
+                <label for="update-id">ID del Producto:</label>
+                <input type="text" id="update-id" required>
+            </div>
+            <div>
+                <label for="update-nombre">Nombre:</label>
+                <input type="text" id="update-nombre">
+            </div>
+            <div>
+                <label for="update-desc">Descripción:</label>
+                <input type="text" id="update-desc">
+            </div>
+            <div>
+                <label for="update-precio">Precio:</label>
+                <input type="number" id="update-precio">
+            </div>
+            <div>
+                <label for="update-imagen">Imagen:</label>
+                <input type="text" id="update-imagen">
+            </div>
+            <div>
+                <label for="update-stock">Stock:</label>
+                <input type="number" id="update-stock">
+            </div>
+            <button type="submit">Modificar Producto</button>
+            <div id="update-error" style="color: red; display: none;">Error al modificar el producto.</div>
+        </form>
+
+        <h2>Eliminar Producto</h2>
+        <form id="delete-product-form">
+            <div>
+                <label for="delete-id">ID del Producto:</label>
+                <input type="text" id="delete-id" required>
+            </div>
+            <button type="submit">Eliminar Producto</button>
+            <div id="delete-error" style="color: red; display: none;">Error al eliminar el producto.</div>
+        </form>
+    </main>
+    <script src="./accesoadmin.js" type="module"></script>
+</body>
+</html>
+

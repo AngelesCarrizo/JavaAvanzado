@@ -1,8 +1,10 @@
 const API = 'http://localhost:3000';
 
 const formLogIn = document.getElementById("logInForm");
-const toggleLoginBtn = document.getElementById('toggle-login');
-
+const startShoppingBtn = document.getElementById('start-shopping');
+const logoutBtn = document.getElementById('logout');
+const adminBtn = document.getElementById('admin');
+const error = document.getElementById("error");
 
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -15,19 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-toggleLoginBtn.addEventListener('click', () => {
-    formLogIn.style.display = 'block';
-    formRegister.style.display = 'none';
+startShoppingBtn.addEventListener('click', () => {
+    window.location.href = "filter.html";  
 });
 
+logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('user');
+    localStorage.removeItem('cart');  // Limpia el carrito
+    window.location.href = "index.html"; 
+});
 
+adminBtn.addEventListener('click', () => {
+    window.location.href = "admin.html";  
+});
 
 formLogIn.addEventListener('submit', async (e) => {
     e.preventDefault();
     await logIn();
 });
-
-
 
 const logIn = async () => {
     const nombre = document.getElementById("nombre").value;
@@ -47,9 +54,10 @@ const logIn = async () => {
         if (data.token) {
             console.log(data);
             sessionStorage.setItem('user', JSON.stringify(data));
-            const redirectUrl = sessionStorage.getItem('redirectUrl') || '/filter.html';
+            const redirectUrl = sessionStorage.getItem('redirectUrl') || 'filter.html';
             sessionStorage.removeItem('redirectUrl');
             window.location.href = redirectUrl;
+            
         } else {
             error.textContent = "Error al encontrar al usuario 🫠";
         }
@@ -58,5 +66,6 @@ const logIn = async () => {
         error.textContent = "Error al comunicarse con el servidor 🫠";
     }
 };
+
 
 

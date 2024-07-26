@@ -7,13 +7,15 @@
     <title>Login</title>
 </head>
 <body>
+    <header>
+        <h1>Bienvenidos a Nuestra Tienda</h1>
+        <button id="start-shopping" class="toggle-btn">Continuar Comprando</button>
+        <button id="logout" class="toggle-btn">Cerrar Sesión</button>
+        <button id="admin" class="toggle-btn">Administrador</button>
+    </header>
     <main>
-        <h1>Ingresar</h1>
         <div id="form-container">
-            <button id="toggle-login" class="toggle-btn">Iniciar Sesión</button>
             
-
-
         <h1>Iniciar Sesión</h1>
         <form id="logInForm" style="display: block;">
             <label for="nombre">Nombre:</label>
@@ -21,9 +23,9 @@
             <label for="pass">Contraseña:</label>
             <input type="password" id="pass" name="pass" required>
             <button type="submit">Iniciar Sesión</button>
-       
+            
     </div>
-        
+    <div id="error"></div>
     </main>
    
     <script src="./login.js" type="module"></script>
