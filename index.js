@@ -19,6 +19,8 @@ app.use('/imagenes', express.static('./frontend/imagenes'));
 app.use(express.static('./frontend/pages/productos'))
 app.use('/api',express.static('./frontend/api'))
 app.use('/styles', express.static('./frontend/styles'));
+app.use( express.static('./frontend/pages/historial'));
+app.use( express.static('./frontend/pages/admin'));
 app.use(express.static('./frontend/pages/login'))
 app.use(express.static('./backend/db'))
 
