@@ -5,26 +5,10 @@ import { createProd, findAll,findById,findByCategory,updateNameById, deleteById 
 const router = Router()
 
 
-/*mongo*/
-// Obtener producto por nombre
-router.get('/productos/:nombre', async (req, res) => {
-    const nombre = req.params.nombre;
-    try {
-        const result = await findAll({ nombre });
-        if (result) {
-            res.status(200).json(result);
-        } else {
-            res.status(404).json({ message: 'Producto no encontrado' });
-        }
-    } catch (error) {
-        console.error('Error al buscar producto por nombre:', error);
-        res.status(500).json({ message: 'Error en el servidor' });
-    }
-});
 // Agregar producto al carrito por ID
 router.post('/agregar', async (req, res) => {
     try {
-        const productId = req.body._id; // Asegúrate de usar el nombre correcto del campo
+        const productId = req.body._id; 
         console.log('Received product ID:', productId);
 
         // Validar que el ID sea válido
@@ -83,6 +67,7 @@ router.get('/byId/:id', async(req,res)=>{
 })
 
 /* filtrar categoria */
+
 router.get('/cat/:categoria', async(req,res)=>{
     const category=req.params.categoria
     try{
@@ -105,6 +90,7 @@ router.patch('/updateByName/:id',async(req,res)=>{
         res.status(400).json()
     }
 })
+/* eliminar producto  */
 
 router.delete('/deleteById/:id',async(req,res)=>{
     const id = req.params.id

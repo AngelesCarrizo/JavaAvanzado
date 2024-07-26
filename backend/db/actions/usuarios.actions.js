@@ -21,6 +21,7 @@ export const findUserByName = async (nombre) => {
         throw error;
     }
 };
+
 export const findAllUsuarios = async () => {
     try {
         await connectToDatabase();

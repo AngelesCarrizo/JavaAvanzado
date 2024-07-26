@@ -11,14 +11,7 @@ const SECRET = "D9HeJsfngORdA_vjNWV8Y77K_8tBlqoYvVQ4oL0SAw4NG9EhmQu1IzRRjLnfrtfV
 const router = Router()
 
 
-/*router.post('/decodeToken',async (req,res)=>{
-    const token = req.body.token
 
-    const result = await decodeToken(token)
-    console.log(result)
-    res.status(200).json(result)
-})*/
-/*Mogo */
 /*crear usuario en la base */
 router.post('/create',async(req,res)=>{
     const {nombre, apellido, email,contraseña} = req.body
@@ -42,8 +35,8 @@ router.post('/create',async(req,res)=>{
     }
     
 })
-/*ACTIVIDAD POST*/
-/*consulta con datos sensibles como contraseña*/
+
+/*consulta con datos sensibles como contraseña en la base*/
 router.post('/uspost',async(req,res)=>{
    
     const obj= req.body.objeto
@@ -55,21 +48,6 @@ router.post('/uspost',async(req,res)=>{
     }
 })
 
- 
-  /*crear nuevo usuario*/
-  router.post('/nuevouspost',async(req,res)=>{
-    const {nombre, apellido, email,contraseña} = req.body
-    try{
-     const result = await createUser({nombre, apellido, email,contraseña})
-     console.log(result)
-     res.status(200).json(result)
-    
-    }
-     catch(error){
-         res.status(400).json()
-     }
-     
- })
 
 
 router.post('/login', async (req, res) => {

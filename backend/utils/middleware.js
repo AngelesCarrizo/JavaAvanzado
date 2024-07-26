@@ -18,12 +18,5 @@ export const verifyToken = async (token) => {
     }
 } 
 
-/*export const decodeToken=async(token)=>{
 
-    if(!verifyToken){
-        return false
-    }
-    const decode = await jwt.verify(token, SECRET)
-    return decode
-}*/
 
